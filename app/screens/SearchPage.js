@@ -1,5 +1,3 @@
-'use strict';
-
 import React, { Component } from 'react';
 
 import {
@@ -118,7 +116,7 @@ class SearchPage extends Component {
                 <Text style={styles.description}>
                 Search for houses to buy!
                 </Text>
-                
+
                 <Text style={styles.description}>
                 Search by place-name or postcode.
                 </Text>

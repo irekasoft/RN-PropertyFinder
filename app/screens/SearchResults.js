@@ -1,5 +1,3 @@
-'use strict';
-
 import React, { Component } from 'react'
 import {
   StyleSheet,
@@ -15,33 +13,42 @@ import ItemDetail from './ItemDetail';
 
 class ListItem extends React.PureComponent {
 
-    _onPress = () => {
+  _cellDidPress = () => {
 
-      this.props.onPressItem(this.props.index);
-    }
-  
-    render() {
-      const item = this.props.item;
-      const price = item.price_formatted.split(' ')[0];
-      return (
-        <TouchableHighlight
-          onPress={this._onPress}
-          underlayColor='#dddddd'>
-          <View>
-            <View style={styles.rowContainer}>
-              <Image style={styles.thumb} source={{ uri: item.img_url }} />
-              <View style={styles.textContainer}>
-                <Text style={styles.price}>{price}</Text>
-                <Text style={styles.title}
-                  numberOfLines={1}>{item.title}</Text>
-              </View>
-            </View>
-            <View style={styles.separator}/>
-          </View>
-        </TouchableHighlight>
-      );
-    }
+    this.props.onPressItem(this.props.index);
+
   }
+
+  render() {
+    
+    const item = this.props.item;
+    const price = item.price_formatted.split(' ')[0];
+
+    return (
+      <TouchableHighlight
+        onPress={this._cellDidPress}
+        underlayColor='#dddddd'>
+
+        <View>
+          
+          <View style={styles.rowContainer}>
+            <Image style={styles.thumb} source={{ uri: item.img_url }} />
+            <View style={styles.textContainer}>
+              <Text style={styles.price}>{price}</Text>
+              <Text style={styles.title}
+                numberOfLines={1}>{item.title}</Text>
+            </View>
+          </View>
+
+          <View style={styles.separator}/>
+
+        </View>
+
+      </TouchableHighlight>
+    );
+    
+  }
+}
 
 class SearchResults extends Component {
 
@@ -52,33 +59,36 @@ class SearchResults extends Component {
 
   _keyExtractor = (item, index) => index;
   
-  _renderItem = ({item, index}) => (
-  <ListItem
-      item={item}
-      index={index}
-      onPressItem={this._onPressItem}
-  />
+  renderCell = ({item, index}) => (
+    <ListItem
+        item={item}
+        index={index}
+        onPressItem={this.onPressCell}
+    />
   );
     
-  _onPressItem = (index) => {
+  onPressCell = (index) => {
 
       console.log("Pressed row: "+index);
 
       var house = this.props.navigation.state.params.listings[index];
-      console.log("house: "+house.title);
-      this.props.navigation.navigate('ItemDetail',{  house: house });
 
+      console.log("house: "+house.title);
+
+      this.props.navigation.navigate('ItemDetail', { house: house });
 
   };
 
   render() {
+
     return (
       <FlatList
         data={this.props.navigation.state.params.listings}
         keyExtractor={this._keyExtractor}
-        renderItem={this._renderItem}
+        renderItem={this.renderCell}
       />
     );
+
   }
 
 }
