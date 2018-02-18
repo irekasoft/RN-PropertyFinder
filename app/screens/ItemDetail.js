@@ -12,8 +12,8 @@ import {
   Button,
 } from 'react-native';
 
-export default class ItemDetail extends Component<{}> {
 
+class ItemDetail extends Component {
     
     constructor(props){
       super(props);
@@ -84,3 +84,5 @@ export default class ItemDetail extends Component<{}> {
           height: 138
       }
 })
+
+export default ItemDetail;

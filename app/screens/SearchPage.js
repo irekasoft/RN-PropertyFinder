@@ -17,6 +17,7 @@ import { StackNavigator } from 'react-navigation';
 
 import SearchResults from './SearchResults';
 
+
 function urlForQueryAndPage(key, value, pageNumber){
 
     const data = {
@@ -29,25 +30,25 @@ function urlForQueryAndPage(key, value, pageNumber){
     }
     data[key] = value;
 
-    const querystring = Object.keys(data)
-    .map(key => key + '=' + encodeURIComponent(data[key]))
-    .join('&');
-
+    // map function as iteration inside the array
+    const querystring = Object.keys(data).map(key => key + '=' + encodeURIComponent(data[key])).join('&');
     console.log(querystring);
-
-  return 'https://api.nestoria.co.uk/api?' + querystring;
+    return 'https://api.nestoria.co.uk/api?' + querystring;
 
 }
 
-export default class SearchPage extends Component<{}> {
+class SearchPage extends Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            searchString: 'london',
-            isLoading: false,
-            message: '',
-        }
+    state = {
+        searchString: 'london',
+        isLoading: false,
+        message: '',
+    }
+
+    componentWillMount(){
+
+        console.log('componentWillMount');
+
     }
 
     _onSearchTextChanged = (event) => {
@@ -56,7 +57,6 @@ export default class SearchPage extends Component<{}> {
         this.setState({ searchString: event.nativeEvent.text });
         console.log('Current: ' + this.state.searchString + ', Next: ' + event.nativeEvent.text);
 
-
     };
 
     _onSearchPressed = () => {
@@ -64,9 +64,11 @@ export default class SearchPage extends Component<{}> {
         this.state.message = '';
         const query = urlForQueryAndPage('place_name', this.state.searchString, 1);
         this._executeQuery(query);
+
     };
 
     _executeQuery = (query) => {
+
         console.log(query);
         this.setState({ isLoading: true });
 
@@ -79,7 +81,7 @@ export default class SearchPage extends Component<{}> {
                 message: 'Something bad happened ' + error
             }));
 
-      };
+    };
 
     _handleResponse = (response) => {
 
@@ -92,13 +94,14 @@ export default class SearchPage extends Component<{}> {
         }
 
         console.log('search page ' + response.listings);
+        
+        this.setState({ message: '' });
 
         this.props.navigation.navigate('SearchResults', {  listings: response.listings })
         
 
     };
       
-    
 
     render(){
 
@@ -107,56 +110,63 @@ export default class SearchPage extends Component<{}> {
         console.log('SearchPage.render');
 
         return(
+
             <View style={styles.container}>
+
+                <Image style={styles.image} source = { require('../img/house.png') } />
 
                 <Text style={styles.description}>
                 Search for houses to buy!
                 </Text>
+                
                 <Text style={styles.description}>
                 Search by place-name or postcode.
                 </Text>
+
                 <View style={styles.flowRight}>
-                <TextInput
-                    style={styles.searchInput}
-                    value={this.state.searchString}
-                    onChange={this._onSearchTextChanged}
-                    placeholder='Search via name or postcode'/>
-                <Button
-                    onPress={() => {}}
-                    color='#48BBEC'
-                    title='Go'
-                    onPress={this._onSearchPressed}
-                />
-                
+                    <TextInput
+                        style={styles.searchInput}
+                        value={this.state.searchString}
+                        onChange={this._onSearchTextChanged}
+                        placeholder='Search via name or postcode'/>
+                    <Button
+                        color='#48BBEC'
+                        title='Search!'
+                        onPress={this._onSearchPressed}
+                    />
                 </View>
 
-                <Image source={require('../img/house.png') } />
                 {spinner}
                 <Text style={styles.description}>{this.state.message}</Text>
+
             </View>
         )
     }
 
 }
 
-const styles = StyleSheet.create({
+const styles = {
+
     description: {
         marginBottom: 20,
         fontSize: 18,
         textAlign: 'center',
         color: '#656565'
-      },
-      container: {
+    },
+        
+    container: {
         padding: 30,
         marginTop: 65,
         alignItems: 'center'
-      },
-      flowRight: {
+    },
+
+    flowRight: {
         flexDirection: 'row',
         alignItems: 'center',
         alignSelf: 'stretch',
-      },
-      searchInput: {
+    },
+
+    searchInput: {
         height: 36,
         padding: 4,
         marginRight: 5,
@@ -166,9 +176,13 @@ const styles = StyleSheet.create({
         borderColor: '#48BBEC',
         borderRadius: 8,
         color: '#48BBEC',
-      },
-      image: {
-          width: 217,
-          height: 138
-      }
-})
+    },
+
+    image: {
+        height: 100,
+        width: 110,
+    }
+
+}
+
+export default SearchPage;

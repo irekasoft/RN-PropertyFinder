@@ -8,8 +8,8 @@ import {
   View,
   NavigatorIOS,
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
 
+import { StackNavigator } from 'react-navigation';
 import SearchPage from './screens/SearchPage'
 import SearchResults from './screens/SearchResults';
 import ItemDetail from './screens/ItemDetail';
@@ -23,6 +23,7 @@ const instructions = Platform.select({
 });
 
 const RootNavigator = StackNavigator({
+  
   Home: {
     screen: SearchPage,
     navigationOptions: {
@@ -42,9 +43,6 @@ const RootNavigator = StackNavigator({
   },
   
 });
-
-
-export default RootNavigator;
 
 
 // export default class App extends Component<{}> {
@@ -79,3 +77,5 @@ const styles = StyleSheet.create({
   },
   
 });
+
+export default RootNavigator;
