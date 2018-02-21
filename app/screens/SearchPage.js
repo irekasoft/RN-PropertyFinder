@@ -12,9 +12,7 @@ import {
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
-
 import SearchResults from './SearchResults';
-
 
 function urlForQueryAndPage(key, value, pageNumber){
 
@@ -95,11 +93,10 @@ class SearchPage extends Component {
         
         this.setState({ message: '' });
 
-        this.props.navigation.navigate('SearchResults', {  listings: response.listings })
+        this.props.navigation.navigate('SearchResults', { listings: response.listings })
         
-
     };
-      
+        
 
     render(){
 
@@ -108,11 +105,8 @@ class SearchPage extends Component {
         console.log('SearchPage.render');
 
         return(
-
             <View style={styles.container}>
-
                 <Image style={styles.image} source = { require('../img/house.png') } />
-
                 <Text style={styles.description}>
                 Search for houses to buy!
                 </Text>
@@ -136,7 +130,6 @@ class SearchPage extends Component {
 
                 {spinner}
                 <Text style={styles.description}>{this.state.message}</Text>
-
             </View>
         )
     }

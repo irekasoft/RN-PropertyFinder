@@ -7,85 +7,60 @@ import {
   FlatList,
   Text,
 } from 'react-native';
+
 import { StackNavigator } from 'react-navigation';
+import ListItem from '../components/ListItem';
 
 import ItemDetail from './ItemDetail';
 
-class ListItem extends React.PureComponent {
-
-  _cellDidPress = () => {
-
-    this.props.onPressItem(this.props.index);
-
-  }
-
-  render() {
-    
-    const item = this.props.item;
-    const price = item.price_formatted.split(' ')[0];
-
-    return (
-      <TouchableHighlight
-        onPress={this._cellDidPress}
-        underlayColor='#dddddd'>
-
-        <View>
-          
-          <View style={styles.rowContainer}>
-            <Image style={styles.thumb} source={{ uri: item.img_url }} />
-            <View style={styles.textContainer}>
-              <Text style={styles.price}>{price}</Text>
-              <Text style={styles.title}
-                numberOfLines={1}>{item.title}</Text>
-            </View>
-          </View>
-
-          <View style={styles.separator}/>
-
-        </View>
-
-      </TouchableHighlight>
-    );
-    
-  }
-}
-
 class SearchResults extends Component {
+
 
   constructor(props){
     super(props);
     console.log('something here' + this.props.navigation.state.params.listings );
+
   }
 
+  _cellDidPress = () => {
+
+    //this.props.onPressItem(this.props.index);
+
+  }
+
+
   _keyExtractor = (item, index) => index;
-  
-  renderCell = ({item, index}) => (
-    <ListItem
-        item={item}
-        index={index}
-        onPressItem={this.onPressCell}
-    />
-  );
     
   onPressCell = (index) => {
 
-      console.log("Pressed row: "+index);
+      console.log("Pressed row: " + index);
 
       var house = this.props.navigation.state.params.listings[index];
 
-      console.log("house: "+house.title);
+      console.log("house: " + house.title);
 
       this.props.navigation.navigate('ItemDetail', { house: house });
 
   };
 
+  renderCell = ({item, index}) => (
+    <ListItem
+
+        onPress = {this.onPressCell.bind(this)} //{this._cellDidPress}    
+        item={item}
+        index={index}
+
+    />
+  );
+
   render() {
 
     return (
       <FlatList
-        data={this.props.navigation.state.params.listings}
+        data = {this.props.navigation.state.params.listings}
         keyExtractor={this._keyExtractor}
         renderItem={this.renderCell}
+        onPressItem={this.onPressCell}
       />
     );
 
@@ -93,7 +68,7 @@ class SearchResults extends Component {
 
 }
 
-const styles = StyleSheet.create({
+const styles = {
   thumb: {
     width: 80,
     height: 80,
@@ -119,6 +94,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 10
   },
-});
+};
 
 export default SearchResults;

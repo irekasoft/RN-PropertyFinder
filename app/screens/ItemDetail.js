@@ -24,8 +24,8 @@ class ItemDetail extends Component {
 
       console.log('something here' + this.props.navigation.state.params.house.title );
 
-    }
 
+    }
 
     render(){
       return (
@@ -41,7 +41,7 @@ class ItemDetail extends Component {
             
             
             <Text style={styles.description}>
-              Price: {this.props.navigation.state.params.house.price}
+              Price: {this.props.navigation.state.params.house.price_formatted}
             </Text>
         </View>
       );

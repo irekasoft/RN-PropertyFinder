@@ -40,6 +40,9 @@ const RootNavigator = StackNavigator({
 
   ItemDetail: {
     screen: ItemDetail,
+    navigationOptions: {
+      headerTitle: 'Item Detail',
+    },
   },
   
 });
